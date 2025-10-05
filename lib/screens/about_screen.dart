@@ -17,15 +17,10 @@ class AboutScreen extends StatelessWidget {
             Text('App de Receitas Favoritas', style: style.headlineSmall),
             const SizedBox(height: 8),
             Text(
-              'Exemplo educacional com navegação por abas no rodapé, '
-                  'Cards com detalhes e Drawer com páginas gerais.',
+              'Exemplo educacional com abas (BottomNavigationBar), '
+                  'Cards com ícone e descrição curta, tela de detalhes com imagem, ingredientes e preparo, '
+                  'além de CRUD básico: inserir, editar e excluir com desfazer.',
               style: style.bodyLarge,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'Tecnologias: Flutter, Material Design, navegação por rotas e '
-                  'componentes de lista (Cards).',
-              style: style.bodyMedium,
             ),
           ],
         ),

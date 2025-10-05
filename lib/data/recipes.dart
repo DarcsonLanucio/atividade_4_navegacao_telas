@@ -1,22 +1,21 @@
 import '../model/recipe.dart';
 
-final List<Recipe> kRecipes = [
+final List<Recipe> initialRecipe = [
   // DOCES
   Recipe(
     id: 'd1',
     title: 'Brigadeiro Clássico',
     category: 'Doces',
-    description: 'O docinho mais amado do Brasil, cremoso e fácil.',
+    description: 'Docinho cremoso e fácil.',
     ingredients: [
       '1 lata de leite condensado',
-      '2 colheres (sopa) de cacau em pó',
-      '1 colher (sopa) de manteiga',
-      'Granulado a gosto'
+      '2 col. (sopa) cacau em pó',
+      '1 col. (sopa) manteiga',
+      'Granulado a gosto',
     ],
     steps: [
-      'Leve ao fogo baixo leite condensado, cacau e manteiga.',
-      'Mexa até desgrudar do fundo.',
-      'Esfrie, enrole e passe no granulado.'
+      'Cozinhe em fogo baixo até desgrudar do fundo.',
+      'Esfrie, enrole e passe no granulado.',
     ],
   ),
   Recipe(
@@ -27,32 +26,30 @@ final List<Recipe> kRecipes = [
     ingredients: [
       '3 cenouras médias',
       '3 ovos',
-      '1/2 xícara de óleo',
-      '2 xícaras de farinha',
-      '1 xícara de açúcar',
-      '1 col. (sopa) fermento'
+      '1/2 xíc. óleo',
+      '2 xíc. farinha',
+      '1 xíc. açúcar',
+      '1 col. (sopa) fermento',
     ],
     steps: [
       'Bata cenoura, ovos e óleo.',
-      'Misture secos e incorpore.',
-      'Asse a 180°C por ~40 min. Cubra com calda de chocolate.'
+      'Misture com secos e asse a 180°C por ~40 min.',
     ],
   ),
   Recipe(
     id: 'd3',
     title: 'Pudim de Leite',
     category: 'Doces',
-    description: 'Clássico lisinho sem furinhos se assar em banho-maria.',
+    description: 'Clássico lisinho em banho-maria.',
     ingredients: [
-      '1 lata de leite condensado',
-      '2 latas de leite',
+      '1 lata leite condensado',
+      '2 latas leite',
       '3 ovos',
-      '1 xícara de açúcar (caramelo)'
+      '1 xíc. açúcar (caramelo)',
     ],
     steps: [
       'Caramelize a forma.',
-      'Bata os demais ingredientes e despeje.',
-      'Asse em banho-maria a 180°C por 1h.'
+      'Bata tudo e asse em banho-maria a 180°C por ~1h.',
     ],
   ),
 
@@ -61,37 +58,34 @@ final List<Recipe> kRecipes = [
     id: 's1',
     title: 'Lasanha à Bolonhesa',
     category: 'Salgadas',
-    description: 'Conforto em camadas: massa, molho e queijo.',
+    description: 'Massa, molho e queijo em camadas.',
     ingredients: [
       'Massa de lasanha',
       '500 g carne moída',
       'Molho de tomate',
-      'Mussarela e presunto',
-      'Parmesão',
-      'Sal e pimenta'
+      'Mussarela, presunto e parmesão',
+      'Sal e pimenta',
     ],
     steps: [
       'Refogue a carne e junte o molho.',
-      'Monte em camadas com queijos.',
-      'Asse até gratinar.'
+      'Monte camadas e leve ao forno até gratinar.',
     ],
   ),
   Recipe(
     id: 's2',
     title: 'Frango ao Curry',
     category: 'Salgadas',
-    description: 'Aromático, cremoso e pronto em meia hora.',
+    description: 'Aromático, cremoso e rápido.',
     ingredients: [
       '500 g peito de frango em cubos',
       '1 cebola',
       '2 col. (sopa) curry',
       '200 ml creme de leite',
-      'Arroz para acompanhar'
+      'Sal',
     ],
     steps: [
       'Doure cebola e frango.',
-      'Some curry e creme.',
-      'Cozinhe até encorpar.'
+      'Adicione curry e creme até encorpar.',
     ],
   ),
   Recipe(
@@ -100,16 +94,15 @@ final List<Recipe> kRecipes = [
     category: 'Salgadas',
     description: 'Massa amanteigada e recheio cremoso.',
     ingredients: [
-      'Massa podre pronta',
+      'Massa pronta',
       '2 talos de alho-poró',
       '3 ovos',
       '200 ml creme de leite',
-      'Queijo a gosto'
+      'Queijo a gosto',
     ],
     steps: [
       'Pré-asse a massa.',
-      'Refogue o alho-poró.',
-      'Misture ovos, creme e queijo, recheie e asse.'
+      'Refogue alho-poró, misture com ovos, creme e queijo e asse.',
     ],
   ),
 
@@ -118,50 +111,47 @@ final List<Recipe> kRecipes = [
     id: 'b1',
     title: 'Limonada Suiça',
     category: 'Bebidas',
-    description: 'Refrescante com leve amargor da casca.',
+    description: 'Refrescante com leve amargor.',
     ingredients: [
       '2 limões tahiti',
       '500 ml água gelada',
-      'Açúcar ou adoçante',
-      'Gelo'
+      'Açúcar a gosto',
+      'Gelo',
     ],
     steps: [
-      'Bata limões com água rapidamente com casca.',
-      'Coe, adoçe e sirva com gelo.'
+      'Bata rapidamente com casca, coe, adoce e sirva com gelo.',
     ],
   ),
   Recipe(
     id: 'b2',
-    title: 'Chocolate Quente Cremoso',
+    title: 'Chocolate Quente',
     category: 'Bebidas',
-    description: 'Textura aveludada para dias frios.',
+    description: 'Cremoso e aveludado.',
     ingredients: [
       '500 ml leite',
       '2 col. (sopa) cacau',
       '100 g chocolate meio amargo',
       '1 col. (sopa) amido',
-      'Açúcar a gosto'
+      'Açúcar a gosto',
     ],
     steps: [
-      'Dissolva amido no leite.',
-      'Aqueça com cacau e açúcar.',
-      'Junte o chocolate até engrossar.'
+      'Dissolva amido no leite, aqueça com cacau e açúcar.',
+      'Junte o chocolate até engrossar.',
     ],
   ),
   Recipe(
     id: 'b3',
     title: 'Vitamina de Morango',
     category: 'Bebidas',
-    description: 'Rápida, doce e nutritiva.',
+    description: 'Doce e nutritiva.',
     ingredients: [
       '200 g morangos',
       '250 ml leite',
       '1 banana',
-      'Mel opcional'
+      'Mel (opcional)',
     ],
     steps: [
-      'Bata tudo no liquidificador.',
-      'Sirva gelado.'
+      'Bata tudo e sirva gelado.',
     ],
   ),
 ];

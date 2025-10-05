@@ -1,31 +1,51 @@
 import 'package:flutter/material.dart';
 import '../model/recipe.dart';
 
+IconData iconForCategory(String cat) {
+  switch (cat) {
+    case 'Doces':
+      return Icons.cake_outlined;
+    case 'Salgadas':
+      return Icons.restaurant_menu;
+    case 'Bebidas':
+      return Icons.local_drink_outlined;
+    default:
+      return Icons.fastfood_outlined;
+  }
+}
+
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
   final VoidCallback onTap;
+  final VoidCallback onLongPress; // atalho para edição
 
-  const RecipeCard({super.key, required this.recipe, required this.onTap});
+  const RecipeCard({
+    super.key,
+    required this.recipe,
+    required this.onTap,
+    required this.onLongPress,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final subtitleStyle = TextStyle(
+      color: Theme.of(context).colorScheme.onSurfaceVariant,
+    );
+
     return Card(
       elevation: 2,
       clipBehavior: Clip.antiAlias,
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: InkWell(
-        onTap: onTap,
+        onTap: onTap,            // abre detalhes
+        onLongPress: onLongPress, // abre edição
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
             children: [
               CircleAvatar(
-                radius: 28,
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                child: Text(
-                  recipe.title.characters.first,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
+                radius: 26,
+                child: Icon(iconForCategory(recipe.category)),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -44,11 +64,9 @@ class RecipeCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       recipe.description,
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
+                      style: subtitleStyle,
                     ),
                   ],
                 ),

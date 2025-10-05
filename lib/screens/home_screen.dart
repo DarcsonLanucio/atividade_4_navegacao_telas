@@ -3,6 +3,7 @@ import '../data/recipes.dart';
 import '../model/recipe.dart';
 import '../widgets/recipe_card.dart';
 import 'recipe_details_screen.dart';
+import 'edit_recipe_screen.dart';
 import 'settings_screen.dart';
 import 'about_screen.dart';
 
@@ -15,11 +16,53 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-
   static const _tabs = ['Doces', 'Salgadas', 'Bebidas'];
 
+  // Lista mutável para CRUD em runtime
+  late List<Recipe> _recipes;
+
+  @override
+  void initState() {
+    super.initState();
+    // Cópia defensiva do seed
+    _recipes = initialRecipe.map((r) => r.copyWith()).toList();
+  }
+
   List<Recipe> _recipesFor(String category) =>
-      kRecipes.where((r) => r.category == category).take(3).toList();
+      _recipes.where((r) => r.category == category).toList();
+
+  void _addRecipe(Recipe newRecipe) {
+    setState(() {
+      _recipes.add(newRecipe);
+    });
+  }
+
+  void _updateRecipe(Recipe updated) {
+    setState(() {
+      final idx = _recipes.indexWhere((r) => r.id == updated.id);
+      if (idx != -1) _recipes[idx] = updated;
+    });
+  }
+
+  void _deleteRecipeWithUndo(Recipe recipe, int index) {
+    setState(() {
+      _recipes.removeAt(index);
+    });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Removido: ${recipe.title}'),
+        action: SnackBarAction(
+          label: 'Desfazer',
+          onPressed: () {
+            setState(() {
+              _recipes.insert(index, recipe);
+            });
+          },
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +81,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Receitas Favoritas', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    Text(
+                      'Receitas Favoritas',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
                     SizedBox(height: 8),
                     Text('Menu geral do aplicativo'),
                   ],
@@ -48,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: const Icon(Icons.settings),
                 title: const Text('Configurações'),
                 onTap: () {
-                  Navigator.pop(context); // fecha o Drawer
+                  Navigator.pop(context);
                   Navigator.pushNamed(context, SettingsScreen.route);
                 },
               ),
@@ -68,16 +114,70 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: recipes.length,
         itemBuilder: (_, i) {
           final r = recipes[i];
-          return RecipeCard(
-            recipe: r,
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => RecipeDetailsScreen(recipe: r),
-                ),
-              );
-            },
+          final indexInAll = _recipes.indexOf(r);
+          return Dismissible(
+            key: ValueKey(r.id),
+            direction: DismissDirection.endToStart,
+            background: Container(
+              color: Colors.red,
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: const Icon(Icons.delete, color: Colors.white),
+            ),
+            onDismissed: (_) => _deleteRecipeWithUndo(r, indexInAll),
+            child: RecipeCard(
+              recipe: r,
+              onTap: () async {
+                // Toque curto: detalhes (com botão Editar)
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => RecipeDetailsScreen(
+                      recipe: r,
+                      onEdit: (edited) => _updateRecipe(edited),
+                    ),
+                  ),
+                );
+              },
+              onLongPress: () async {
+                // Atalho: edição direta
+                final edited = await Navigator.of(context).push<Recipe>(
+                  MaterialPageRoute(
+                    builder: (_) => EditRecipeScreen(
+                      initial: r,
+                      isEditing: true,
+                    ),
+                  ),
+                );
+                if (edited != null) {
+                  _updateRecipe(edited);
+                }
+              },
+            ),
           );
+        },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: const Icon(Icons.add),
+        label: const Text('Nova receita'),
+        onPressed: () async {
+          final created = await Navigator.of(context).push<Recipe>(
+            MaterialPageRoute(
+              builder: (_) => EditRecipeScreen(
+                initial: Recipe(
+                  id: UniqueKey().toString(),
+                  title: '',
+                  category: _tabs[_currentIndex],
+                  description: '',
+                  ingredients: <String>[], // garantido não-nulo
+                  steps: <String>[],       // garantido não-nulo
+                ),
+                isEditing: false,
+              ),
+            ),
+          );
+          if (created != null) {
+            _addRecipe(created);
+          }
         },
       ),
       bottomNavigationBar: BottomNavigationBar(

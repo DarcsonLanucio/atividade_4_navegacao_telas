@@ -17,7 +17,7 @@ class SettingsScreen extends StatelessWidget {
             value: Theme.of(context).brightness == Brightness.dark,
             onChanged: (_) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Tema: este exemplo não alterna runtime.')),
+                const SnackBar(content: Text('Tema: exemplo não alterna em runtime.')),
               );
             },
             secondary: Icon(Icons.dark_mode, color: cs.primary),
